@@ -1034,7 +1034,7 @@ function Contact() {
       emailjs
         .send(
           "service_ooyd9pm",
-          "template_x7b6zx4",
+          "template_aatl9ee",
           {
             name: form.name,
             email: form.email,
