@@ -602,8 +602,57 @@ function Projects() {
       border: "border-sky-500/30",
       glow: "shadow-sky-500/10",
     },
+    {
+      title: "HireSmart AI - Resume Screening Platform",
+      image: "/images/hiresmart-ai.png",
+      category: "AI",
+      featured: true,
+      desc: "An AI-powered recruitment platform that automatically evaluates resumes against job descriptions, helping recruiters streamline the hiring process.",
+      tech: [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "AWS EC2",
+        "SMTP",
+        "Systemd",
+        "AI Matching",
+      ],
+      features: [
+        "AI Resume Screening",
+        "Role-based Authentication",
+        "Recruiter Dashboard",
+        "Application Tracking",
+        "Email Notifications",
+      ],
+      live: null,
+      github: "https://github.com/sneha0018/HireSmart-AI-Resume-Screening.git",
+      emoji: "🤖",
+      color: "from-orange-500/20 to-red-500/20",
+      border: "border-orange-500/30",
+      glow: "shadow-orange-500/10",
+    },
+    {
+      title: "Social Media Trend Analyzer",
+      image: "/images/trend-analyzer.png",
+      category: "Python",
+      desc: "A Python-based project that analyzes text data to identify trending keywords and hashtags using DSA concepts such as hashing, sorting, and pattern matching.",
+      tech: ["Python", "DSA", "Regex", "Hashing", "Sorting Algorithms"],
+      features: [
+        "Trend Detection",
+        "Hashtag Analysis",
+        "Keyword Ranking",
+        "Text Processing",
+        "DSA Implementation",
+      ],
+      live: null,
+      github: "https://github.com/sneha0018/social-media-trend-analyzer.git",
+      emoji: "📈",
+      color: "from-green-500/20 to-emerald-500/20",
+      border: "border-green-500/30",
+      glow: "shadow-green-500/10",
+    },
   ];
-  const filters = ["All", "Web", "Cloud", "Python"];
+  const filters = ["All", "AI", "Web", "Cloud", "Python"];
   const filtered =
     filter === "All" ? projects : projects.filter((p) => p.category === filter);
   return (
@@ -681,19 +730,22 @@ function Projects() {
                 ))}
               </div>
               <div className="flex gap-3">
-                <a
-                  href={p.live}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 text-center py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold transition-all hover:shadow-lg hover:shadow-sky-500/30"
-                >
-                  Live Demo →
-                </a>
+                {p.live && (
+                  <a
+                    href={p.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 text-center py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold"
+                  >
+                    Live Demo →
+                  </a>
+                )}
+
                 <a
                   href={p.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 text-center py-2 rounded-lg border border-slate-600 hover:border-sky-500/50 text-slate-300 text-xs font-semibold transition-all hover:text-sky-400"
+                  className="flex-1 text-center py-2 rounded-lg border border-slate-600 text-slate-300 text-xs font-semibold"
                 >
                   GitHub ↗
                 </a>
@@ -981,19 +1033,40 @@ function Contact() {
     if (form.name && form.email && form.message) {
       emailjs
         .send(
-          "service_1nwq2mj", // from EmailJS dashboard
-          "template_ji77fhm", // from EmailJS dashboard
+          "service_ooyd9pm",
+          "template_x7b6zx4",
           {
-            from_name: form.name,
-            from_email: form.email,
+            name: form.name,
+            email: form.email,
             message: form.message,
           },
-          "t34pDr4MSXeSV2tQS", // from EmailJS dashboard
+          "t34pDr4MSXeSV2tQS",
         )
         .then(() => {
+          // Auto reply to visitor
+          return emailjs.send(
+            "service_ooyd9pm",
+            "template_x7b6zx4",
+            {
+              name: form.name,
+              email: form.email,
+            },
+            "t34pDr4MSXeSV2tQS",
+          );
+        })
+        .then(() => {
           setSent(true);
-          setForm({ name: "", email: "", message: "" });
-          setTimeout(() => setSent(false), 4000);
+          setForm({
+            name: "",
+            email: "",
+            message: "",
+          });
+
+          setTimeout(() => setSent(false), 8000);
+        })
+        .catch((err) => {
+          console.error("EMAIL ERROR:", err);
+          alert(JSON.stringify(err));
         });
     }
   };
@@ -1100,9 +1173,10 @@ function Contact() {
                 {sent ? "✓ Message Sent!" : "Send Message →"}
               </button>
               {sent && (
-                <p className="text-center text-xs text-green-400">
-                  Thanks! I'll get back to you soon 🎉
-                </p>
+                <div className="mt-4 p-4 rounded-xl border border-green-500/30 bg-green-500/10 text-green-300 text-sm whitespace-pre-line">
+                  🎉 Message sent successfully! Thank you for reaching out. I'll
+                  review your message and get back to you soon.
+                </div>
               )}
             </div>
           </div>
